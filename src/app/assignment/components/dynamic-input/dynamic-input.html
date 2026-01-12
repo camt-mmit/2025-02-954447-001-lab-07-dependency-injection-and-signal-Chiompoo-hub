@@ -8,15 +8,15 @@
 </header>
 
 <ul class="input-list">
-  @for (item of section().inputs; track $index; let i = $index; let count = $count) {
+  @for (item of section().inputs; track item; let i = $index; let count = $count) {
     <li class="input-item">
-      <span>Number {{ i + 1 }}</span> 
+      <span>Number {{ i + 1 }}</span>
       <input
         type="number"
-        [value]="item.value" 
+        [value]="item.value"
         (input)="changeInput(i, $any($event.target).value)"
       />
-      
+
       @if (count > 1) {
         <button type="button" class="remove-input" (click)="removeInput(i)">X</button>
       }
