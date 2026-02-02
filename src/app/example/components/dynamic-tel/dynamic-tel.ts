@@ -1,65 +1,63 @@
-import { ChangeDetectionStrategy, Component, booleanAttribute, input, model, output } from '@angular/core';
+import { booleanAttribute, ChangeDetectionStrategy, Component, input, model, output,numberAttribute } from '@angular/core';
 import { createContact, createTel } from '../../helpers';
+import { __values } from 'tslib';
+import { DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'app-dynamic-tel',
-  imports: [],
+  imports: [DecimalPipe],
   templateUrl: './dynamic-tel.html',
   styleUrl: './dynamic-tel.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DynamicTel {
-  readonly number = input<number | null>(null);
+
+  readonly number = input(NaN, { transform: numberAttribute });
   readonly contact = model(createContact());
-  readonly removable = input(false, {transform: booleanAttribute});
+  readonly removable = input(true,{ transform: booleanAttribute});
 
   readonly remove = output<void>();
 
-  protected changeName(name: string): void {
-    this.contact.update((contact) => {
-
-      return {
+    protected changeName(name : string): void{
+    this.contact.update((contact)=> {
+      return{
         ...contact,
-        name,
+        name
       };
     });
   }
 
-  protected addTel(): void {
-    this.contact.update((contact) => {
-      const { tels, ...rest } = contact;
-
-      return {
+  protected addTel(): void{
+    this.contact.update((contact)=> {
+      const{tels, ...rest } = contact;
+      return{
         ...rest,
-        tels: [...tels, createTel()],
+        tels:[...tels, createTel()],
       };
     });
   }
-
-  protected removeTel(index: number): void {
-    this.contact.update((contact) => {
-      const { tels, ...rest } = contact;
-
-      return {
+   protected removeTel(index: number): void{
+    this.contact.update((contact)=> {
+      const{tels, ...rest } = contact;
+      return{
         ...rest,
-        tels: tels.filter((_value, i) => i !== index),
+        tels: tels.filter((__value,i) => i !== index),
       };
     });
   }
-
-  protected changeTel(index: number, vlue: string): void {
-     this.contact.update((contact) => {
-      const { tels, ...rest } = contact;
-
-      return {
+  protected changeTel(index: number, value:string):void{
+    this.contact.update((contact)=> {
+      const{tels, ...rest } = contact;
+      return{
         ...rest,
-        tels: tels.map((tel, i) => {
-          if (i === index) {
-            tel.value = vlue
+        tels: tels.map((tel,i) => {
+          if (i === index){
+            tel.value = value;
           }
-           return tel;
+          return tel;
         }),
       };
     });
   }
 }
+

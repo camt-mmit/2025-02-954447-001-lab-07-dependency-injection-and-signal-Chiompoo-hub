@@ -6,6 +6,6 @@ export interface TelModel {
 value: string;
 }
 export interface ContactModel {
-name: string;
-tels: readonly TelModel[];
+ name: string;
+ tels: readonly TelModel[];
 }
